@@ -3,7 +3,7 @@ def unkify(string, vocab):
     Translates all words in string that do not appear in vocab to '*UNK*'.
 
     @param string: The string to be unkified.
-    @param vocab: The vocabulary with respect to which we unkify.
+    @param vocab: The vocabulary with respect to which we unkify. (Should be a set or dict for O(1) lookups).
 
     @return: The string, with all words unknown to the vocab translated to '*UNK*'.
     """
