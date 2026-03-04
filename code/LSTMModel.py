@@ -25,6 +25,7 @@ class LSTMModel:
 
         self.vocab = vocab
         self.vocab_size = len(self.vocab)
+        self.vocab_dict = {word: i for i, word in enumerate(self.vocab)}
         self.batch_size = batch_size
         self.seq_len = seq_len
         self.cell_size = cell_size
@@ -167,12 +168,12 @@ class LSTMModel:
         if prime is None:
             prime = np.random.choice(self.vocab)
         else:
-            prime = unkify(prime, self.vocab)
+            prime = unkify(prime, self.vocab_dict)
 
         # prime the model state
         for word in prime.split():
             print (word)	#Py3Upgrade
-            last_word_i = self.vocab.index(word)
+            last_word_i = self.vocab_dict[word]
             input_i = np.array([[last_word_i]])
 
             feed_dict = {self.inputs: input_i, self.initial_state: state}
@@ -182,7 +183,7 @@ class LSTMModel:
         gen_seq = prime
         for i in range(num_out):	#Py3Upgrade, xrange to range
             # generate word probabilities
-            input_i = np.array([[last_word_i]]) #TODO: use dictionary?
+            input_i = np.array([[last_word_i]])
             feed_dict = {self.inputs: input_i, self.initial_state: state}
             probs, state = self.sess.run([self.probs, self.final_state], feed_dict=feed_dict)
             probs = probs[0]
