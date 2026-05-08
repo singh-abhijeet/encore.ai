@@ -61,7 +61,7 @@ class LSTMModel:
         ##
         with tf.variable_scope('lstm_vars'):
             self.ws = tf.get_variable('ws', [self.cell_size, self.vocab_size])
-            self.bs = tf.get_variable('bs', [self.vocab_size])  # TODO: initializer?
+            self.bs = tf.get_variable('bs', [self.vocab_size], initializer=tf.zeros_initializer())
             with tf.device('/cpu:0'): # put on CPU to parallelize for faster training/
                 self.embeddings = tf.get_variable('embeddings', [self.vocab_size, self.cell_size])
 
